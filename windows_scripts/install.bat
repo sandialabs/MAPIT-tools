@@ -12,6 +12,7 @@
 
 if NOT "%~1"=="" set http_proxy=%1
 if NOT "%~1"=="" set https_proxy=%1
+if NOT "%~1"=="" set "pip_extra=--proxy %https_proxy% --trusted-host pypi.org --trusted-host files.pythonhosted.org"
 if NOT "%~2"=="" set up_path=%2
 if "%~2"=="" set up_path=%userprofile%
 
@@ -24,7 +25,12 @@ echo Creating environment
 call %up_path%\Miniconda3\condabin\activate.bat
 if NOT "%~2"=="" cd .\windows_scripts 
 if NOT "%~1"=="" call conda config --set ssl_verify false
-call conda env create -f ../requirements.yml 
+if NOT "%~1"=="" call conda config --set proxy_servers.http %1%
+if NOT "%~1"=="" call conda config --set proxy_servers.https %1%
+call conda init
+call conda create --name MAPIT_env -y
+call conda install --name MAPIT_env "python<=3.10" pip -y
+call %up_path%\Miniconda3\envs\MAPIT_env\Scripts\pip install %pip_extra% git+https://github.com/sandialabs/MAPIT
 if  errorlevel 1 goto ERROR
 echo Install complete
 PAUSE

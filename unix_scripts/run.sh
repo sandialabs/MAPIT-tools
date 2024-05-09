@@ -2,7 +2,7 @@
 {
   source $HOME/miniconda/etc/profile.d/conda.sh
   conda activate MAPIT_env
-  python ../src/MAPIT.py
+  MAPIT
 } || { echo Something went wrong
 
 }
