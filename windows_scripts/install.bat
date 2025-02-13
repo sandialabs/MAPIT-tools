@@ -29,8 +29,7 @@ if NOT "%~1"=="" call conda config --set proxy_servers.http %1%
 if NOT "%~1"=="" call conda config --set proxy_servers.https %1%
 call conda init
 call conda create --name MAPIT_env -y
-call conda install --name MAPIT_env "python<=3.10" pip -y
-call %up_path%\Miniconda3\envs\MAPIT_env\Scripts\pip install %pip_extra% git+https://github.com/sandialabs/MAPIT
+call conda install --name MAPIT_env mapit -y -q
 if  errorlevel 1 goto ERROR
 echo Install complete
 PAUSE
